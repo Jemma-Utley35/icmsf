@@ -38,14 +38,14 @@ var Coordinate = function(parent,id,keyNumber) {
     this.x = null;
     this.y = null;
 
-    var svgns = this.parent.shadowRoot.querySelector(".preview_image_overlay").getAttribute("svgns");
+    var svgns = this.parent.preview_image_overlay.getAttribute("svgns");
     this.point_node = document.createElementNS(svgns,"rect");
     this.point_node.setAttribute("width","1"); this.point_node.setAttribute("height","1");
     this.point_mask_node = document.createElementNS(svgns,"rect");
     this.point_mask_node.setAttribute("width","1"); this.point_mask_node.setAttribute("height","1");
 
-    this.parent.shadowRoot.querySelector(".preview_image_overlay_points").appendChild(this.point_node);
-    this.parent.shadowRoot.querySelector(".preview_image_overlay_point_masks").appendChild(this.point_mask_node);
+    this.parent.preview_image_overlay_points.appendChild(this.point_node);
+    this.parent.preview_image_overlay_point_masks.appendChild(this.point_mask_node);
 
     this.display_node = document.createElement("div");
     this.display_node.className = "coordinate_list_entry";
@@ -57,7 +57,7 @@ var Coordinate = function(parent,id,keyNumber) {
     this.display_node.appendChild(this.id_node);
     this.display_node.appendChild(document.createTextNode(": "));
     this.display_node.appendChild(this.coordinate_node);
-    this.parent.shadowRoot.querySelector(".coordinate_list").appendChild(this.display_node);
+    this.parent.coordinate_list.appendChild(this.display_node);
 
     this.enableDrag();
 };
@@ -73,7 +73,7 @@ Coordinate.prototype.enableDrag = function() {
     let isDragging = false;
     const onMouseMove = (event) => {
         if (!isDragging) return;
-        const rect = this.parent.shadowRoot.querySelector(".preview_image_size").getBoundingClientRect();
+        const rect = this.parent.preview_image_size.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
         this.set_position(x, y);
@@ -101,25 +101,19 @@ var Edit = (function(){
     var Edit=function(userId){
         this.userId=userId;
 
-        // Shadow DOM setup
         const container = document.getElementById("index2");
-        this.shadowRoot = container.attachShadow({mode:"open"});
-
-        // Move existing HTML inside shadowRoot
-        const edit_region = container.querySelector(".edit_region");
-        this.shadowRoot.appendChild(edit_region);
+        this.edit_region = container.querySelector(".edit_region");
 
         this.image={node:null,diagramId:null,width:0,height:0};
         this.coordinates=[]; this.coordinate_current=null;
 
-        this.edit_region=this.shadowRoot.querySelector(".edit_region");
-        this.preview_image_size=this.shadowRoot.querySelector(".preview_image_size");
-        this.preview_image_overlay=this.shadowRoot.querySelector(".preview_image_overlay");
-        this.preview_image_overlay_lines=this.shadowRoot.querySelector(".preview_image_overlay_lines");
-        this.preview_image_overlay_lines_bg=this.shadowRoot.querySelector(".preview_image_overlay_lines_bg");
-        this.preview_image_overlay_points=this.shadowRoot.querySelector(".preview_image_overlay_points");
-        this.preview_image_overlay_point_masks=this.shadowRoot.querySelector(".preview_image_overlay_point_masks");
-        this.coordinate_list=this.shadowRoot.querySelector(".coordinate_list");
+        this.preview_image_size=this.edit_region.querySelector(".preview_image_size");
+        this.preview_image_overlay=this.edit_region.querySelector(".preview_image_overlay");
+        this.preview_image_overlay_lines=this.edit_region.querySelector(".preview_image_overlay_lines");
+        this.preview_image_overlay_lines_bg=this.edit_region.querySelector(".preview_image_overlay_lines_bg");
+        this.preview_image_overlay_points=this.edit_region.querySelector(".preview_image_overlay_points");
+        this.preview_image_overlay_point_masks=this.edit_region.querySelector(".preview_image_overlay_point_masks");
+        this.coordinate_list=this.edit_region.querySelector(".coordinate_list");
     };
 
     Edit.prototype.loadDiagram=async function(diagramId){
@@ -170,7 +164,7 @@ var Edit = (function(){
                 last_opened_at:new Date().toISOString()
             });
         }
-        if(skipped.length) alert(`Skipped duplicate diagram IDs: ${skipped.join(", ")}`);
+        if(skipped.length) alert(`Skipped duplicate diagram IDs: ${skipped.join(", ")}`); 
         else alert("Import complete.");
     };
 
@@ -305,4 +299,5 @@ on_ready(async function(){
     });
 });
 })();
+
 
