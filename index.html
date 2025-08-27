@@ -7,6 +7,7 @@
     <meta name="author" content="nutbread" />
     <title>Image Coordinate Mapper - Index2</title>
     <link rel="shortcut icon" href="favicon.png" />
+    <link rel="stylesheet" href="style_index2.css" />
     <script src="script2.js" defer></script>
 </head>
 <body id="index2">
@@ -40,11 +41,90 @@
     </div>
 </div>
 
-<!-- Shadow DOM host -->
-<div id="icm-shadow-host"></div>
+<div class="main body">
+    <div class="edit_region">
+        <div class="preview_image_container">
+            <div class="preview_image_container_inner" style="font-size: 1px;">
+                <div class="preview_image_size">
+                    <svg class="preview_image_overlay" svgns="http://www.w3.org/2000/svg">
+                        <g class="preview_image_overlay_lines_bg"></g>
+                        <g class="preview_image_overlay_lines"></g>
+                        <g class="preview_image_overlay_points"></g>
+                        <g class="preview_image_overlay_point_masks"></g>
+                    </svg>
+                </div>
+                <div class="preview_image_message"></div>
+            </div>
+        </div>
+
+        <table class="preview_info"><tbody><tr>
+            <td>
+                <span class="preview_info_stat">Zoom: <span class="preview_info_stat_zoom">100%</span> (<a class="preview_info_stat_link preview_info_stat_link_zoom_increase">+</a>/<a class="preview_info_stat_link preview_info_stat_link_zoom_decrease">&minus;</a>)</span>
+                <span class="preview_info_sep"></span>
+                <span class="preview_info_stat">Resolution: <span class="preview_info_stat_resolution"></span></span>
+                <span class="preview_info_sep"></span>
+                <span class="preview_info_stat">Cursor: <span class="preview_info_stat_cursor"></span></span>
+            </td>
+            <td>
+                <span class="preview_control">Ctrl: modify points</span>
+                <span class="preview_control_sep"></span>
+                <span class="preview_control">Shift: relative snap</span>
+            </td>
+        </tr></tbody></table>
+
+        <table class="coordinate_table"><tbody><tr>
+            <td>
+                <div class="coordinate_list_table_container">
+                    <table class="coordinate_list_table"><tbody>
+                        <tr>
+                            <td><div class="coordinate_table_header">Coordinates</div></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="coordinate_list_container">
+                                    <div class="coordinate_list"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </div>
+            </td>
+            <td>
+                <div class="coordinate_table_header">Auto-replace</div>
+                <textarea id="coordinates_modifier" spellcheck="false" autocomplete="off"></textarea>
+                <div class="coordinate_table_message">
+                    Use <code>\x[<em>i</em>]</code> and <code>\y[<em>i</em>]</code> for coordinate replacement.
+                </div>
+            </td>
+            <td>
+                <div class="coordinate_table_header">Modified</div>
+                <textarea id="coordinates_modified" spellcheck="false" autocomplete="off" readonly></textarea>
+            </td>
+        </tr></tbody></table>
+    </div>
+
+    <div>
+        This webpage functions as a quick way to mark coordinates on an image.
+        <span class="script_enabled">Select a file, drag and drop one into the window, or provide a URL to an image to begin marking coordinates.</span>
+        <span class="script_disabled script_visible">Javascript is required to be enabled for this site to work.</span>
+    </div>
+
+    <div class="script_enabled">
+        <div class="selection_table_container">
+            <table class="selection_table"><tbody><tr>
+                <td>
+                    <button class="selection_from_file_button">Select image file</button>
+                    <input type="file" id="selection_from_file" autocomplete="off" />
+                </td>
+                <td>
+                    <input type="text" id="selection_from_url" placeholder="Or input an image URL" autocomplete="off" />
+                </td>
+            </tr></tbody></table>
+        </div>
+    </div>
+</div>
 
 <div class="drag_drop_highlight"></div>
 
 </body>
 </html>
-
