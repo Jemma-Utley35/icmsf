@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="description" content="Quick way to mark coordinates on an image" />
+	<meta name="keywords" content="image,coordinate,mapper,javascript,firefox,chrome,browser" />
+	<meta name="author" content="nutbread" />
+	<title>Image Coordinate Mapper</title>
+	<link rel="shortcut icon" href="favicon.png" />
+	<link rel="stylesheet" href="style.css" />
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+	<script src="script2.js"></script>
+</head>
+<body>
+
+<div class="header_bar">
+	<div class="main main_no_overflow header">
+		<table class="header_table"><tbody>
+			<tr>
+				<td class="header_table_cell">
+					<div class="header_table_name">
+						<a class="header_table_name_user link_external link_author light_underline" href="https://nutbread.github.io/"><span>nutbread</span></a>
+						<span class="header_table_name_separator">/</span>
+						<a href="" class="header_table_name_title link_external link_title light_underline"><span>icm</span></a>
+					</div>
+				</td>
+				<td class="header_table_cell">
+					<div class="header_table_separator"></div>
+				</td>
+				<td class="header_table_cell header_table_cell_full">
+					<div class="header_table_description">
+						<div class="header_table_description_name">Image Coordinate Mapper</div>
+						<div class="header_table_description_body">Quick way to mark coordinates on an image</div>
+					</div>
+				</td>
+				<td class="header_table_cell">
+					<a class="header_table_view_on_github link_external link_view_on_github light_nohover_color_hover" href="https://github.com/nutbread/icm">
+						<div class="header_table_view_on_github_line1">view on</div>
+						<div class="header_table_view_on_github_line2">github</div>
+					</a>
+				</td>
+			</tr>
+		</tbody></table>
+	</div>
+</div>
+
+<!-- Authentication and Diagram Navigation -->
+<div class="auth_container" style="display:flex;gap:10px;padding:10px;">
+	<input type="email" placeholder="Email" id="auth_email"/>
+	<input type="password" placeholder="Password" id="auth_password"/>
+	<button id="sign_in_btn">Sign In</button>
+	<button id="sign_out_btn" style="display:none;">Sign Out</button>
+	<button id="delete_btn" style="display:none;">Delete All My Diagrams</button>
+	<input type="text" placeholder="Search by Diagram ID" id="search_diagram"/>
+	<button id="prev_btn">Previous</button>
+	<button id="next_btn">Next</button>
+	<button id="import_btn">Import JSON</button>
+	<button id="export_btn">Export CSV</button>
+</div>
+
+<div class="main body">
+	<div class="edit_region">
+		<div class="preview_image_container">
+			<div class="preview_image_container_inner" style="font-size: 1px;">
+				<div class="preview_image_size">
+					<svg class="preview_image_overlay" svgns="http://www.w3.org/2000/svg">
+						<g class="preview_image_overlay_lines_bg"></g>
+						<g class="preview_image_overlay_lines"></g>
+						<g class="preview_image_overlay_points"></g>
+						<g class="preview_image_overlay_point_masks"></g>
+					</svg>
+				</div>
+				<div class="preview_image_message"></div>
+			</div>
+		</div>
+
+		<table class="preview_info"><tbody><tr>
+			<td>
+				<span class="preview_info_stat">Zoom: <span class="preview_info_stat_zoom">100%</span> 
+				(<a class="preview_info_stat_link preview_info_stat_link_zoom_increase">+</a>/<a class="preview_info_stat_link preview_info_stat_link_zoom_decrease">&minus;</a>)</span>
+				<span class="preview_info_sep"></span>
+				<span class="preview_info_stat">Resolution: <span class="preview_info_stat_resolution"></span></span>
+				<span class="preview_info_sep"></span>
+				<span class="preview_info_stat">Cursor: <span class="preview_info_stat_cursor"></span></span>
+			</td>
+			<td>
+				<span class="preview_control">Ctrl: modify points</span>
+				<span class="preview_control_sep"></span>
+				<span class="preview_control">Shift: relative snap</span>
+			</td>
+		</tr></tbody></table>
+
+		<table class="coordinate_table"><tbody><tr>
+			<td>
+				<div class="coordinate_list_table_container">
+					<table class="coordinate_list_table"><tbody><tr>
+						<td><div class="coordinate_table_header">Coordinates</div></td>
+					</tr><tr>
+						<td>
+							<div class="coordinate_list_container">
+								<div class="coordinate_list"></div>
+							</div>
+						</td>
+					</tr></tbody></table>
+				</div>
+			</td>
+			<td>
+				<div class="coordinate_table_header">Auto-replace</div>
+				<textarea id="coordinates_modifier" spellcheck="false" autocomplete="off"></textarea>
+				<div class="coordinate_table_message">
+					Use <code>\x[<em>i</em>]</code> and <code>\y[<em>i</em>]</code> for coordinate replacement.
+				</div>
+			</td>
+			<td>
+				<div class="coordinate_table_header">Modified</div>
+				<textarea id="coordinates_modified" spellcheck="false" autocomplete="off" readonly></textarea>
+			</td>
+		</tr></tbody></table>
+	</div>
+
+	<div>
+		This webpage functions as a quick way to mark coordinates on an image.
+		<span class="script_enabled">Select a file, drag and drop one into the window, or provide a URL to an image to begin marking coordinates.</span>
+		<span class="script_disabled script_visible">Javascript is required to be enabled for this site to work.</span>
+	</div>
+
+	<div class="script_enabled">
+		<div class="selection_table_container">
+			<table class="selection_table"><tbody><tr>
+				<td>
+					<button class="selection_from_file_button">Select image file</button>
+					<input type="file" id="selection_from_file" autocomplete="off" />
+				</td>
+				<td>
+					<input type="text" id="selection_from_url" placeholder="Or input an image URL" autocomplete="off" />
+				</td>
+			</tr></tbody></table>
+		</div>
+	</div>
+</div>
+
+<div class="drag_drop_highlight"></div>
+
+<script>
+// Paste your full Supabase Edit class and auth/navigation JS here
+</script>
+
+</body>
+</html>
