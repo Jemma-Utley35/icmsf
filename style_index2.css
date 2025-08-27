@@ -1,3 +1,95 @@
+
+/* ----------------- Script visibility ----------------- */
+.script_enabled { display: block; }
+.script_disabled { display: none; }
+.script_visible { display: inline; }
+
+/* ----------------- Edit region ----------------- */
+.edit_region_visible { display: block; }
+
+/* ----------------- Drag & drop highlight ----------------- */
+.drag_drop_highlight {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 150, 255, 0.2);
+    pointer-events: none;
+    display: none;
+    z-index: 999;
+}
+.drag_drop_highlight_visible { display: block; }
+
+/* ----------------- Preview info bar ----------------- */
+.preview_info {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #333;
+}
+.preview_info_stat, .preview_control {
+    margin-right: 12px;
+}
+.preview_info_stat_link {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: none;
+}
+.preview_info_stat_link:hover { text-decoration: underline; }
+.preview_control_sep, .preview_info_sep { margin: 0 6px; }
+
+/* ----------------- Coordinate list ----------------- */
+.coordinate_list_entry {
+    font-size: 12px;
+    padding: 2px 0;
+}
+.coordinate_list_entry_id {
+    font-weight: bold;
+}
+.coordinate_list_entry_pos {
+    font-family: monospace;
+    margin-left: 4px;
+}
+
+/* ----------------- SVG overlay ----------------- */
+.preview_image_overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; /* Only masks will handle events */
+}
+.preview_image_overlay_points rect {
+    fill: red;
+    cursor: pointer;
+}
+.preview_image_overlay_point_masks rect {
+    fill: transparent;
+    cursor: grab;
+}
+
+/* ----------------- Image container ----------------- */
+.preview_image_size_visible { visibility: visible; }
+.preview_image_size {
+    position: relative;
+    display: inline-block;
+    visibility: hidden;
+}
+.preview_image {
+    display: block;
+    max-width: 100%;
+    max-height: 80vh;
+}
+
+/* ----------------- Selection buttons ----------------- */
+.selection_table input[type="file"] {
+    display: none;
+}
+.selection_from_file_button {
+    cursor: pointer;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    background: #f0f0f0;
+}
+.selection_from_file_button:hover { background: #e0e0e0; }
+
 /* ---------- Auth & Navigation ---------- */
 .auth_container {
   display: flex;
