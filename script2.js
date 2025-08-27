@@ -100,16 +100,20 @@ Coordinate.prototype.enableDrag = function() {
 var Edit = (function(){
     var Edit=function(userId){
         this.userId=userId;
+
+        // Scope everything under #index2
+        const container = document.getElementById("index2");
+
         this.image={node:null,diagramId:null,width:0,height:0};
         this.coordinates=[]; this.coordinate_current=null;
-        this.edit_region=document.querySelector(".edit_region");
-        this.preview_image_size=document.querySelector(".preview_image_size");
-        this.preview_image_overlay=document.querySelector(".preview_image_overlay");
-        this.preview_image_overlay_lines=document.querySelector(".preview_image_overlay_lines");
-        this.preview_image_overlay_lines_bg=document.querySelector(".preview_image_overlay_lines_bg");
-        this.preview_image_overlay_points=document.querySelector(".preview_image_overlay_points");
-        this.preview_image_overlay_point_masks=document.querySelector(".preview_image_overlay_point_masks");
-        this.coordinate_list=document.querySelector(".coordinate_list");
+        this.edit_region=container.querySelector(".edit_region");
+        this.preview_image_size=container.querySelector(".preview_image_size");
+        this.preview_image_overlay=container.querySelector(".preview_image_overlay");
+        this.preview_image_overlay_lines=container.querySelector(".preview_image_overlay_lines");
+        this.preview_image_overlay_lines_bg=container.querySelector(".preview_image_overlay_lines_bg");
+        this.preview_image_overlay_points=container.querySelector(".preview_image_overlay_points");
+        this.preview_image_overlay_point_masks=container.querySelector(".preview_image_overlay_point_masks");
+        this.coordinate_list=container.querySelector(".coordinate_list");
     };
 
     Edit.prototype.loadDiagram=async function(diagramId){
@@ -194,6 +198,8 @@ var Edit = (function(){
 
 // ---------------- Init Auth & UI ----------------
 on_ready(async function(){
+    const container = document.getElementById("index2");
+
     const authContainer=document.createElement("div"); authContainer.className="auth_container";
     const emailInput=document.createElement("input"); emailInput.type="email"; emailInput.placeholder="Email";
     const passwordInput=document.createElement("input"); passwordInput.type="password"; passwordInput.placeholder="Password";
@@ -201,7 +207,7 @@ on_ready(async function(){
     const signOutBtn=document.createElement("button"); signOutBtn.textContent="Sign Out"; signOutBtn.style.display="none";
     const deleteBtn=document.createElement("button"); deleteBtn.textContent="Delete All My Diagrams"; deleteBtn.style.display="none";
     authContainer.append(emailInput,passwordInput,signInBtn,signOutBtn,deleteBtn);
-    document.body.insertBefore(authContainer,document.body.firstChild);
+    container.insertBefore(authContainer, container.firstChild);
 
     let currentUser=null;
     let editInstance=null;
@@ -213,7 +219,7 @@ on_ready(async function(){
     const importBtn=document.createElement("button"); importBtn.textContent="Import JSON";
     const exportBtn=document.createElement("button"); exportBtn.textContent="Export CSV";
     nav.append(prevBtn,searchInput,nextBtn,importBtn,exportBtn);
-    document.body.insertBefore(nav,document.body.firstChild);
+    container.insertBefore(nav, container.firstChild);
 
     // ---------- Auth ----------
     signInBtn.addEventListener("click", async ()=>{
