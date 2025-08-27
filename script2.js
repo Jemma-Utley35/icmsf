@@ -2,7 +2,6 @@
 "use strict";
 
 // ---------------- Supabase Setup ----------------
-// Use a different variable name than 'supabase' for the client
 const supabaseClient = supabase.createClient(
     "https://greipcnztnxtrltavwys.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyZWlwY256dG54dHJsdGF2d3lzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MDAwMzcsImV4cCI6MjA2NzQ3NjAzN30.8BbvgP4Celro5QsM4CeTOgXwI7Jl7PUwVPi3ZNfJX18"
@@ -222,27 +221,50 @@ on_ready(async function(){
     nav.append(prevBtn,searchInput,nextBtn,importBtn,exportBtn);
     container.insertBefore(nav, container.firstChild);
 
-    // ---------- Auth ----------
-    signInBtn.addEventListener("click", async ()=>{
-        const email=emailInput.value.trim(), password=passwordInput.value.trim();
-        if(!email||!password){ alert("Enter email and password"); return; }
-        const {user,error}=await supabaseClient.auth.signInWithPassword({email,password});
-        if(error){ alert(error.message); return; }
-        currentUser=user;
-        alert("Signed in as "+email);
-        signInBtn.style.display="none"; signOutBtn.style.display="inline-block"; deleteBtn.style.display="inline-block";
-        editInstance=new Edit(currentUser.id);
-        await loadUserDiagrams();
+    // ---------- Auth with Logging ----------
+    signInBtn.addEventListener("click", async () => {
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+        if (!email || !password) {
+            alert("Enter email and password");
+            return;
+        }
+
+        try {
+            console.log("Attempting login with:", { email, password: password ? "***" : "" });
+
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+            if (error) {
+                console.error("Supabase login error:", error);
+                alert("Login failed: " + error.message);
+                return;
+            }
+
+            console.log("Supabase login success:", data);
+            currentUser = data.user;
+            alert("Signed in as " + email);
+            signInBtn.style.display = "none";
+            signOutBtn.style.display = "inline-block";
+            deleteBtn.style.display = "inline-block";
+
+            editInstance = new Edit(currentUser.id);
+            await loadUserDiagrams();
+
+        } catch (e) {
+            console.error("Unexpected error during login:", e);
+            alert("Unexpected login error: " + e.message);
+        }
     });
 
-    signOutBtn.addEventListener("click", async ()=>{
+    signOutBtn.addEventListener("click", async ()=> {
         await supabaseClient.auth.signOut();
         currentUser=null; editInstance=null;
         signInBtn.style.display="inline-block"; signOutBtn.style.display="none"; deleteBtn.style.display="none";
         alert("Signed out");
     });
 
-    deleteBtn.addEventListener("click", async ()=>{
+    deleteBtn.addEventListener("click", async ()=> {
         if(editInstance) await editInstance.deleteAllUserDiagrams();
     });
 
@@ -258,19 +280,19 @@ on_ready(async function(){
         if(diagramIds.length) await editInstance.loadDiagram(diagramIds[currentIndex]);
     }
 
-    prevBtn.addEventListener("click", async ()=>{
+    prevBtn.addEventListener("click", async ()=> {
         if(!diagramIds.length) return;
         currentIndex=Math.max(0,currentIndex-1);
         await editInstance.loadDiagram(diagramIds[currentIndex]);
     });
 
-    nextBtn.addEventListener("click", async ()=>{
+    nextBtn.addEventListener("click", async ()=> {
         if(!diagramIds.length) return;
         currentIndex=Math.min(diagramIds.length-1,currentIndex+1);
         await editInstance.loadDiagram(diagramIds[currentIndex]);
     });
 
-    searchInput.addEventListener("keypress", async (e)=>{
+    searchInput.addEventListener("keypress", async (e)=> {
         if(e.key==="Enter" && searchInput.value.trim()){
             const targetId = searchInput.value.trim();
             if(diagramIds.includes(targetId)){
@@ -282,7 +304,7 @@ on_ready(async function(){
         }
     });
 
-    importBtn.addEventListener("click", async ()=>{
+    importBtn.addEventListener("click", async ()=> {
         const json = prompt("Paste JSON data for import:");
         if(json){
             try{
@@ -295,7 +317,7 @@ on_ready(async function(){
         }
     });
 
-    exportBtn.addEventListener("click", async ()=>{
+    exportBtn.addEventListener("click", async ()=> {
         if(editInstance) await editInstance.exportDiagrams();
     });
 });
