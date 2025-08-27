@@ -1,119 +1,120 @@
-/* style_index2.css - scoped for #index2 */
-#index2 body {
-    padding: 0;
-    margin: 0;
-    border: none;
-    color: #111111;
-    background-color: #ffffff;
-    font-family: Arial;
-    font-size: 16px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    text-align: center;
+/* ---------- Auth & Navigation ---------- */
+.auth_container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
 }
 
-#index2 table, #index2 tbody, #index2 tr, #index2 td {
-    margin: 0;
-    padding: 0;
-    border-spacing: 0;
+.diagram_navigation {
+  display: flex;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
 }
 
-#index2 p {
-    margin: 0;
-    padding: 0;
-    line-height: 1.5em;
+/* ---------- Edit Region ---------- */
+.edit_region {
+  display: none;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background: #fffbe6;
+  border-radius: 6px;
 }
 
-#index2 ol, #index2 ul {
-    margin: 0 0 0 1em;
-    padding: 0;
+.edit_region_visible {
+  display: block !important;
 }
 
-#index2 ol>li, #index2 ul>li {
-    line-height: 1.5em;
+/* ---------- Script Enable/Disable ---------- */
+.script_enabled {
+  display: block;
 }
 
-#index2 ol>li+li, #index2 ul>li+li {
-    margin-top: 0.5em;
+.script_disabled {
+  display: none;
 }
 
-#index2 h1, #index2 h2, #index2 h3, #index2 h4, #index2 h5, #index2 h6 {
-    margin: 0;
-    padding: 0;
-    font-weight: bold;
-    line-height: 1.5em;
-    position: relative;
+.script_disabled.script_visible {
+  display: block !important;
+  opacity: 0.6;
 }
 
-#index2 h1 { font-size: 2em; }
-#index2 h2 { font-size: 1.8em; }
-#index2 h3 { font-size: 1.6em; }
-#index2 h4 { font-size: 1.4em; }
-#index2 h5 { font-size: 1.2em; }
-#index2 h6 { font-size: 1em; }
-
-#index2 input,
-#index2 textarea {
-    font-size: inherit;
-}
-#index2 input:focus,
-#index2 textarea:focus {
-    outline: none;
+/* ---------- Preview Image & Overlays ---------- */
+.preview_image {
+  max-width: 100%;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
 
-#index2 .hardlink_text { vertical-align: middle; }
-#index2 a.hardlink { display: block; position: absolute; color: #c8c8c8; font-weight: bold; }
-#index2 a.hardlink:hover { color: #e0a926; text-decoration: none; }
-
-#index2 .main { text-align: left; display: inline-block; width: 60em; vertical-align: middle; }
-#index2 .main.main_no_overflow { overflow: hidden; }
-#index2 .main.body { margin: 0.5em 0 4em 0; }
-
-#index2 .header_bar { position: relative; background: linear-gradient(180deg, #f9f9f9, #f3f3f3); border-bottom: 1px solid #e5e5e5; }
-#index2 .header_table { margin: 0.5em 0; text-align: left; }
-#index2 .header_table td { vertical-align: middle; }
-#index2 .header_table_cell { width: 0; }
-#index2 .header_table_cell.header_table_cell_full { width: 100%; }
-
-#index2 .header_table_name { font-size: 2em; line-height: 1.2em; white-space: nowrap; }
-#index2 .header_table_name_separator { display: inline-block; margin: 0 0.125em; color: #c8c8c8; }
-#index2 .header_table_description_name { text-transform: lowercase; font-weight: bold; color: #404040; }
-#index2 .header_table_description_body { text-transform: lowercase; color: #606060; }
-
-#index2 .coordinate_table { width: 100%; table-layout: fixed; padding: 0; border-spacing: 0; margin-top: 0.5em; }
-#index2 .coordinate_table td { vertical-align: top; position: relative; }
-#index2 .coordinate_table td:not(:first-child) { padding-left: 0.5em; }
-#index2 .coordinate_table_header { font-weight: bold; margin-bottom: 0.25em; }
-#index2 .coordinate_table_message { font-size: 0.8em; color: #808080; margin-top: 0.25em; }
-
-#index2 #coordinates_modifier,
-#index2 #coordinates_modified {
-    padding: 0.25em;
-    width: 100%;
-    height: 6em;
-    border: 0.125em dashed #c8c8c8;
-    background: #f3f3f3;
+.preview_image_size_visible {
+  display: inline-block;
 }
 
-/* Preview & Image Container */
-#index2 .preview_image_container { box-sizing: border-box; border: 0.25em solid #c8c8c8; position: relative; }
-#index2 .preview_image_container:before { content: ""; display: block; padding-top: 56.25%; }
-#index2 .preview_image_container_inner { position: absolute; overflow: auto; left: 0; top: 0; right: 0; bottom: 0; font-size: 1px; white-space: nowrap; line-height: 0; text-align: center; }
-#index2 .preview_image_size { cursor: crosshair; }
-#index2 .preview_image_message { font-size: 16px; }
+.preview_image_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
 
-#index2 .drag_drop_highlight { position: fixed; left: 0; top: 0; bottom: 0; right: 0; border: 0.25em dashed #e0a926; }
-#index2 .drag_drop_highlight:not(.drag_drop_highlight_visible) { display: none; }
+.preview_image_overlay_lines {
+  stroke: red;
+  stroke-width: 2px;
+}
 
-#index2 .coordinate_list_table_container { position: absolute; left: 0; top: 0; bottom: 0; right: 0; }
-#index2 .coordinate_list_table { width: 100%; height: 100%; table-layout: fixed; padding: 0; border-spacing: 0; }
-#index2 .coordinate_list_container { position: absolute; left: 0; top: 0; bottom: 0; right: 0; min-height: 4em; overflow: auto; }
-#index2 .coordinate_list_entry+.coordinate_list_entry { margin-top: 0.125em; }
-#index2 .coordinate_list_entry>span { vertical-align: middle; }
-#index2 .coordinate_list_entry>.checkbox { margin-right: 0.25em; }
-#index2 .coordinate_list_entry_id { font-weight: bold; }
+.preview_image_overlay_points {
+  fill: blue;
+  r: 4;
+}
 
-/* Image selection */
-#index2 #selection_from_url { font-size: 2em; padding: 0.5em; width: 100%; border: 0.0625em dashed #c8c8c8; background: #f3f3f3; }
-#index2 #selection_from_file { display: none; }
-#index2 .selection_from_file_button { font-size: 2em; padding: 0.5em; width: 100%; border: 0.0625em solid #c8c8c8; background: #f3f3f3; cursor: pointer; }
+.preview_image_overlay_point_masks {
+  fill: rgba(0, 0, 0, 0.3);
+}
+
+/* ---------- Coordinate List ---------- */
+.coordinate_list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.coordinate_list_entry {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+.coordinate_list_entry_id {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.coordinate_list_entry_pos {
+  font-family: monospace;
+  color: #555;
+}
+
+/* ---------- Links & Text Helpers ---------- */
+.light_underline {
+  text-decoration: underline;
+}
+
+.light_nohover_color_hover:hover {
+  color: #0077cc;
+}
+
+.link_external::after {
+  content: "↗";
+  font-size: 0.8em;
+  margin-left: 3px;
+}
+
