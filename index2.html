@@ -8,23 +8,22 @@
     <title>Image Coordinate Mapper - Index2</title>
     <link rel="shortcut icon" href="favicon.png" />
     <link rel="stylesheet" href="style_index2.css" />
-    <script src="script2_index2.js" defer></script>
+    <script src="script2.js" defer></script>
 </head>
-<body>
+<body id="index2">
 
 <div class="header_bar">
     <div class="main main_no_overflow header">
-
         <table class="header_table"><tbody>
             <tr>
                 <td class="header_table_cell">
                     <div class="header_table_name">
-                        <a class="header_table_name_user link_external link_author light_underline" href="https://nutbread.github.io/"><span>nutbread</span></a><span class="header_table_name_separator">/</span><a href="" class="header_table_name_title link_external link_title light_underline"><span>icm</span></a>
+                        <a class="header_table_name_user link_external link_author light_underline" href="https://nutbread.github.io/"><span>nutbread</span></a>
+                        <span class="header_table_name_separator">/</span>
+                        <a href="" class="header_table_name_title link_external link_title light_underline"><span>icm</span></a>
                     </div>
                 </td>
-                <td class="header_table_cell">
-                    <div class="header_table_separator"></div>
-                </td>
+                <td class="header_table_cell"><div class="header_table_separator"></div></td>
                 <td class="header_table_cell header_table_cell_full">
                     <div class="header_table_description">
                         <div class="header_table_description_name">Image Coordinate Mapper</div>
@@ -39,7 +38,6 @@
                 </td>
             </tr>
         </tbody></table>
-
     </div>
 </div>
 
@@ -58,28 +56,37 @@
                 <div class="preview_image_message"></div>
             </div>
         </div>
+
         <table class="preview_info"><tbody><tr>
             <td>
-                <span class="preview_info_stat">Zoom: <span class="preview_info_stat_zoom">100%</span> (<a class="preview_info_stat_link preview_info_stat_link_zoom_increase">+</a>/<a class="preview_info_stat_link preview_info_stat_link_zoom_decrease">&minus;</a>)</span><span class="preview_info_sep"></span><span class="preview_info_stat">Resolution: <span class="preview_info_stat_resolution"></span></span><span class="preview_info_sep"></span><span class="preview_info_stat">Cursor: <span class="preview_info_stat_cursor"></span></span>
+                <span class="preview_info_stat">Zoom: <span class="preview_info_stat_zoom">100%</span> (<a class="preview_info_stat_link preview_info_stat_link_zoom_increase">+</a>/<a class="preview_info_stat_link preview_info_stat_link_zoom_decrease">&minus;</a>)</span>
+                <span class="preview_info_sep"></span>
+                <span class="preview_info_stat">Resolution: <span class="preview_info_stat_resolution"></span></span>
+                <span class="preview_info_sep"></span>
+                <span class="preview_info_stat">Cursor: <span class="preview_info_stat_cursor"></span></span>
             </td>
             <td>
-                <span class="preview_control">Ctrl: modify points</span><span class="preview_control_sep"></span><span class="preview_control">Shift: relative snap</span>
+                <span class="preview_control">Ctrl: modify points</span>
+                <span class="preview_control_sep"></span>
+                <span class="preview_control">Shift: relative snap</span>
             </td>
         </tr></tbody></table>
+
         <table class="coordinate_table"><tbody><tr>
             <td>
                 <div class="coordinate_list_table_container">
-                    <table class="coordinate_list_table"><tbody><tr>
-                        <td>
-                            <div class="coordinate_table_header">Coordinates</div>
-                        </td>
-                    </tr><tr>
-                        <td>
-                            <div class="coordinate_list_container">
-                                <div class="coordinate_list"></div>
-                            </div>
-                        </td>
-                    </tr></tbody></table>
+                    <table class="coordinate_list_table"><tbody>
+                        <tr>
+                            <td><div class="coordinate_table_header">Coordinates</div></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="coordinate_list_container">
+                                    <div class="coordinate_list"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody></table>
                 </div>
             </td>
             <td>
@@ -121,4 +128,3 @@
 
 </body>
 </html>
-
