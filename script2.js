@@ -2,7 +2,8 @@
 "use strict";
 
 // ---------------- Supabase Setup ----------------
-const supabase = supabase.createClient(
+// Use a different variable name than 'supabase' for the client
+const supabaseClient = supabase.createClient(
     "https://greipcnztnxtrltavwys.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyZWlwY256dG54dHJsdGF2d3lzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MDAwMzcsImV4cCI6MjA2NzQ3NjAzN30.8BbvgP4Celro5QsM4CeTOgXwI7Jl7PUwVPi3ZNfJX18"
 );
@@ -119,7 +120,7 @@ var Edit = (function(){
     Edit.prototype.loadDiagram=async function(diagramId){
         if(this.image.diagramId!=null) await this.saveCoordinates();
         this.image.diagramId=diagramId;
-        const {data:diagram,error}=await supabase.from('diagram_key_coordinates').select('*').eq('diagram_id',diagramId).single();
+        const {data:diagram,error}=await supabaseClient.from('diagram_key_coordinates').select('*').eq('diagram_id',diagramId).single();
         if(error){ console.error(error); return; }
         this.set_url(diagram.dam_link);
         this.coordinates.forEach(c=>c.display_node.remove()); this.coordinates=[];
@@ -134,13 +135,13 @@ var Edit = (function(){
                 }
             });
         }
-        await supabase.from('diagram_key_coordinates').upsert({diagram_id:diagramId,last_opened_at:new Date().toISOString()},{onConflict:['diagram_id']});
+        await supabaseClient.from('diagram_key_coordinates').upsert({diagram_id:diagramId,last_opened_at:new Date().toISOString()},{onConflict:['diagram_id']});
     };
 
     Edit.prototype.saveCoordinates=async function(){
         if(!this.coordinates.length||!this.image.diagramId) return;
         const coords=this.coordinates.map(c=>({keyNumber:c.keyNumber,left:c.x!==null?c.x+"px":null,top:c.y!==null?c.y+"px":null}));
-        await supabase.from('diagram_key_coordinates').upsert({diagram_id:this.image.diagramId,coordinates:coords},{onConflict:['diagram_id']});
+        await supabaseClient.from('diagram_key_coordinates').upsert({diagram_id:this.image.diagramId,coordinates:coords},{onConflict:['diagram_id']});
     };
 
     Edit.prototype.set_url=function(url){
@@ -154,9 +155,9 @@ var Edit = (function(){
     Edit.prototype.importDiagrams=async function(importedData){
         const skipped=[];
         for(const diagram of importedData){
-            const {data:existing}=await supabase.from('diagram_key_coordinates').select('diagram_id').eq('diagram_id',diagram.diagram_id).single();
+            const {data:existing}=await supabaseClient.from('diagram_key_coordinates').select('diagram_id').eq('diagram_id',diagram.diagram_id).single();
             if(existing){ skipped.push(diagram.diagram_id); continue; }
-            await supabase.from('diagram_key_coordinates').insert({
+            await supabaseClient.from('diagram_key_coordinates').insert({
                 diagram_id:diagram.diagram_id,
                 dam_link:diagram.dam_link,
                 coordinates:diagram.coordinates || null,
@@ -169,7 +170,7 @@ var Edit = (function(){
     };
 
     Edit.prototype.exportDiagrams=async function(){
-        const {data:diagrams}=await supabase.from('diagram_key_coordinates').select('*').eq('user_id',this.userId);
+        const {data:diagrams}=await supabaseClient.from('diagram_key_coordinates').select('*').eq('user_id',this.userId);
         const csvRows=[];
         const headers=["diagram_id","dam_link","coordinates"];
         csvRows.push(headers.join(","));
@@ -188,7 +189,7 @@ var Edit = (function(){
 
     Edit.prototype.deleteAllUserDiagrams=async function(){
         if(!confirm("Are you sure you want to delete all your diagrams? This cannot be undone.")) return;
-        await supabase.from('diagram_key_coordinates').delete().eq('user_id',this.userId);
+        await supabaseClient.from('diagram_key_coordinates').delete().eq('user_id',this.userId);
         alert("All your diagrams have been deleted.");
         location.reload();
     };
@@ -225,7 +226,7 @@ on_ready(async function(){
     signInBtn.addEventListener("click", async ()=>{
         const email=emailInput.value.trim(), password=passwordInput.value.trim();
         if(!email||!password){ alert("Enter email and password"); return; }
-        const {user,error}=await supabase.auth.signInWithPassword({email,password});
+        const {user,error}=await supabaseClient.auth.signInWithPassword({email,password});
         if(error){ alert(error.message); return; }
         currentUser=user;
         alert("Signed in as "+email);
@@ -235,7 +236,7 @@ on_ready(async function(){
     });
 
     signOutBtn.addEventListener("click", async ()=>{
-        await supabase.auth.signOut();
+        await supabaseClient.auth.signOut();
         currentUser=null; editInstance=null;
         signInBtn.style.display="inline-block"; signOutBtn.style.display="none"; deleteBtn.style.display="none";
         alert("Signed out");
@@ -251,7 +252,7 @@ on_ready(async function(){
 
     async function loadUserDiagrams(){
         if(!currentUser || !editInstance) return;
-        const {data:diagrams}=await supabase.from('diagram_key_coordinates').select('diagram_id').eq('user_id',currentUser.id).order('last_opened_at',{ascending:true});
+        const {data:diagrams}=await supabaseClient.from('diagram_key_coordinates').select('diagram_id').eq('user_id',currentUser.id).order('last_opened_at',{ascending:true});
         diagramIds=diagrams.map(d=>d.diagram_id);
         currentIndex=0;
         if(diagramIds.length) await editInstance.loadDiagram(diagramIds[currentIndex]);
@@ -299,5 +300,3 @@ on_ready(async function(){
     });
 });
 })();
-
-
